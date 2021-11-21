@@ -29,36 +29,36 @@ public class AngleChecker extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             // Put run blocks here.
-            // Turn Left - Full 1 sec
-            TopRight.setPower(1);
+            // Turn Right - Full 1 sec
+            /*TopRight.setPower(1);
             BottomRight.setPower(-1);
             TopLeft.setPower(1);
             BottomLeft.setPower(-1);
-            sleep(1000);
-            // Turn Left - Half 1 sec
+            sleep(1000);*/
+            // Turn Right - Half 1 sec
             /*TopRight.setPower(0.5);
             BottomRight.setPower(-0.5);
             TopLeft.setPower(0.5);
             BottomLeft.setPower(-0.5);
             sleep(1000);*/
-            // Turn Left - Full 1/2 sec
+            // Turn Right - Full 1/2 sec
             /*TopRight.setPower(0.5);
             BottomRight.setPower(-0.5);
             TopLeft.setPower(0.5);
             BottomLeft.setPower(-0.5);
             sleep(500);*/
-            // Turn Left - Half 1/2 sec
-            /*TopRight.setPower(0.5);
+            // Turn Right - Half 1/2 sec
+            TopRight.setPower(0.5);
             BottomRight.setPower(-0.5);
             TopLeft.setPower(0.5);
             BottomLeft.setPower(-0.5);
-            sleep(500);*/
+            sleep(500);
             // Forward
             TopRight.setPower(1);
             BottomRight.setPower(-1);
             TopLeft.setPower(-1);
             BottomLeft.setPower(1);
-            sleep(120000);
+            sleep(100000);
             // Stop
             TopRight.setPower(0);
             BottomRight.setPower(0);
