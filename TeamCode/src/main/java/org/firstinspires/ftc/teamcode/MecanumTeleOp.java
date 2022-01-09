@@ -23,8 +23,8 @@ public class MecanumTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
             double ly = -gamepad1.left_stick_y;
-            double rx = gamepad1.left_stick_x * 1.1;
-            double lx = gamepad1.right_stick_x;
+            double lx = gamepad1.left_stick_x * 1.1;
+            double rx = gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(ly) + Math.abs(lx) + Math.abs(rx), 1);
             double frontLeftPower = (ly + lx + rx) / denominator;
