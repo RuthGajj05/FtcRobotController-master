@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
 public class MecanumAuto extends LinearOpMode{
-    // initialize motors!
+    // initialize motors :(
     DcMotor r1 = null;
     DcMotor r2 = null;
     DcMotor l1 = null;
