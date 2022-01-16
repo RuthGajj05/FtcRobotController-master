@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "GamepadDrive1 (Blocks to Java)")
-public class GamepadDrive1 extends LinearOpMode {
+public class RealMecanumTeleOp extends LinearOpMode {
 
     private DcMotor TopRight;
     private DcMotor BottomRight;
@@ -22,10 +22,10 @@ public class GamepadDrive1 extends LinearOpMode {
         float horizontal;
         float pivot;
 
-        TopRight = hardwareMap.get(DcMotor.class, "Top Right");
-        BottomRight = hardwareMap.get(DcMotor.class, "Bottom Right");
-        TopLeft = hardwareMap.get(DcMotor.class, "Top Left");
-        BottomLeft = hardwareMap.get(DcMotor.class, "Bottom Left");
+        TopRight = hardwareMap.get(DcMotor.class, "r1");
+        BottomRight = hardwareMap.get(DcMotor.class, "r2");
+        TopLeft = hardwareMap.get(DcMotor.class, "l1");
+        BottomLeft = hardwareMap.get(DcMotor.class, "l2");
 
         // Put initialization blocks here.
         TopRight.setDirection(DcMotorSimple.Direction.REVERSE);
