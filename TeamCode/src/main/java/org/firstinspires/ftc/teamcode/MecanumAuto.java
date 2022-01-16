@@ -14,6 +14,8 @@ public class MecanumAuto extends LinearOpMode{
     DcMotor l1 = null;
     DcMotor l2 = null;
     DcMotor carousel = null;
+    DcMotor intake = null;
+    DcMotor linearSlides = null;
     HardwareMap hwMap = null;
 
     double startToFreight = 20;
@@ -25,7 +27,7 @@ public class MecanumAuto extends LinearOpMode{
     double robotLength;
     double robotWidth = 11.25;
 
-    double diameterCarouselWheel = 4;
+    double diameterCarouselWheel = 3;
 
     public void init(HardwareMap Map) {
         r1 = hwMap.get(DcMotor.class, "r1");
@@ -33,30 +35,40 @@ public class MecanumAuto extends LinearOpMode{
         l1 = hwMap.get(DcMotor.class, "l1");
         l2 = hwMap.get(DcMotor.class, "l2");
         carousel = hwMap.get(DcMotor.class, "Carousel");
+        intake = hwMap.get(DcMotor.class, "Intake");
+        linearSlides = hwMap.get(DcMotor.class, "Linear Slides");
 
         r1.setDirection(DcMotor.Direction.REVERSE);
         r2.setDirection(DcMotor.Direction.REVERSE);
         l1.setDirection(DcMotor.Direction.FORWARD);
         l2.setDirection(DcMotor.Direction.FORWARD);
         carousel.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        linearSlides.setDirection(DcMotor.Direction.FORWARD);
 
         r1.setPower(0);
         r2.setPower(0);
         l1.setPower(0);
         l2.setPower(0);
         carousel.setPower(0);
+        intake.setPower(0);
+        linearSlides.setPower(0);
 
         r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         r2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         l2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         carousel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         r1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         r2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         l1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         l2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         carousel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        linearSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private ElapsedTime runtime = new ElapsedTime();
