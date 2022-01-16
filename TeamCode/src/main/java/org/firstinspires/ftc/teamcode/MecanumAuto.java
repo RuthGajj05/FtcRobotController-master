@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
 public class MecanumAuto extends LinearOpMode{
-
+    // initialize motors!
     DcMotor r1 = null;
     DcMotor r2 = null;
     DcMotor l1 = null;
@@ -18,6 +18,7 @@ public class MecanumAuto extends LinearOpMode{
     DcMotor linearSlides = null;
     HardwareMap hwMap = null;
 
+    // declare variables
     double startToFreight = 20;
     double freightToWall = 59;
     double wallToHub = 56;
@@ -29,6 +30,14 @@ public class MecanumAuto extends LinearOpMode{
 
     double diameterCarouselWheel = 3;
 
+    // declares PID constants
+    double integralSum = 0;
+
+    double kP = 0;
+    double kD = 0;
+    double kI = 0;
+
+    // init code
     public void init(HardwareMap Map) {
         r1 = hwMap.get(DcMotor.class, "r1");
         r2 = hwMap.get(DcMotor.class, "r2");
@@ -70,9 +79,13 @@ public class MecanumAuto extends LinearOpMode{
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         linearSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
+    // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
 
+    ElapsedTime timer = new ElapsedTime();
+    private double lastError = 0;
+
+    // code to run while play
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -87,6 +100,8 @@ public class MecanumAuto extends LinearOpMode{
             while (runtime.milliseconds() < 20000) {
                 backToFreight();
                 toHub();
+                double power = PIDControl(100, linearSlides.getCurrentPosition());
+                linearSlides.setPower(power);
             }
         }
 
@@ -94,21 +109,21 @@ public class MecanumAuto extends LinearOpMode{
         spinCarousel();
         toLandingZone();
     }
-
+    // resets encoders
     public void resetEncoder() {
         r1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         r2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         l1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         l2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
+    // run to position code
     public void runToPosition() {
         r1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         r2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         l1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         l2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-
+    // calculates distance in ticks
     public void getTarget(double distanceInInches) {
         // distances --> startToFreight: 20, freightToWall: tomeasure, wallToHub: 56, wallToCarousel: tomeasure, wallToEnd: tomeasure
         double ticks = 537.7;
@@ -121,7 +136,7 @@ public class MecanumAuto extends LinearOpMode{
         l1.setTargetPosition((int) distanceInTicks);
         l2.setTargetPosition((int) distanceInTicks);
     }
-
+    // calculates angle in ticks
     public double getAngleDistance(double angle) {
         double ticks = 537.7;
         double circumferenceInInches = robotWidth * 3.14;
@@ -129,35 +144,35 @@ public class MecanumAuto extends LinearOpMode{
 
         return angleDistanceInInches;
     }
-
+    // moves forward
     public void moveForward(double power) {
         r1.setPower(power);
         r2.setPower(-power);
         l1.setPower(-power);
         l2.setPower(power);
     }
-
+    // moves right
     public void moveRight(double power) {
         r1.setPower(power);
         r2.setPower(-power);
         l1.setPower(power);
         l2.setPower(-power);
     }
-
+    // move lefts
     public void moveLeft(double power) {
         r1.setPower(-power);
         r2.setPower(power);
         l1.setPower(-power);
         l2.setPower(power);
     }
-
+    // moves backward
     public void moveBackward(double power) {
         r1.setPower(power);
         r2.setPower(power);
         l1.setPower(-power);
         l2.setPower(-power);
     }
-
+    // spins rights
     public void spinRight(double power, double distance) {
         resetEncoder();
         getTarget(distance);
@@ -168,7 +183,7 @@ public class MecanumAuto extends LinearOpMode{
         l1.setPower(power);
         l2.setPower(power);
     }
-
+    // spins left
     public void spinLeft(double power, double distance) {
         resetEncoder();
         getTarget(distance);
@@ -179,14 +194,14 @@ public class MecanumAuto extends LinearOpMode{
         l1.setPower(-power);
         l2.setPower(-power);
     }
-
+    // stop moving
     public void stopMoving() {
         r1.setPower(0);
         r2.setPower(0);
         l1.setPower(0);
         l2.setPower(0);
     }
-
+    // spin carousel
     public void spinCarousel() {
         double ticks = 537.7;
         double circumference = diameterCarouselWheel * 3.14;
@@ -195,7 +210,7 @@ public class MecanumAuto extends LinearOpMode{
 
         carousel.setTargetPosition((int) distanceInTicks);
     }
-
+    // start position to freight
     public void startToFreight() {
         resetEncoder();
         getTarget(startToFreight);
@@ -206,7 +221,7 @@ public class MecanumAuto extends LinearOpMode{
         }
         stopMoving();
     }
-
+    // freight to hub
     public void toHub() {
         resetEncoder();
         getTarget(freightToWall);
@@ -227,7 +242,7 @@ public class MecanumAuto extends LinearOpMode{
         }
         stopMoving();
     }
-
+    // hub back to freight
     public void backToFreight() {
         resetEncoder();
         getTarget(wallToHub);
@@ -248,7 +263,7 @@ public class MecanumAuto extends LinearOpMode{
         }
 
     }
-
+    // hub to carousel
     public void toCarousel() {
         resetEncoder();
         getTarget(wallToHub);
@@ -271,7 +286,7 @@ public class MecanumAuto extends LinearOpMode{
 
         spinCarousel();
     }
-
+    // carousel to landing zone
     public void toLandingZone() {
         resetEncoder();
         getTarget(wallToEnd);
@@ -281,5 +296,17 @@ public class MecanumAuto extends LinearOpMode{
             // do nothing :)
         }
         stopMoving();
+    }
+
+    public double PIDControl(double reference, double state) {
+        double error = reference - state;
+        integralSum += error + timer.seconds();
+        double derivative = (error - lastError) / timer.seconds();
+        lastError = error;
+
+        timer.reset();
+
+        double output = (error * kP) + (derivative * kD) + (integralSum * kI);
+        return output;
     }
 }
