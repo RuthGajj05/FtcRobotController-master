@@ -23,7 +23,7 @@ public class MecanumAuto extends LinearOpMode{
     double wallToEnd;
 
     double robotLength;
-    double robotWidth;
+    double robotWidth = 11.25;
 
     double diameterCarouselWheel = 4;
 
