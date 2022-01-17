@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "GamepadDrive1 (Blocks to Java)")
+@TeleOp(name = "Real Mecanum TeleOp")
 public class RealMecanumTeleOp extends LinearOpMode {
 
     private DcMotor TopRight;
