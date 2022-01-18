@@ -82,8 +82,8 @@ public class MecanumAuto extends LinearOpMode{
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
 
-    ElapsedTime timer = new ElapsedTime();
-    private double lastError = 0;
+    /*ElapsedTime timer = new ElapsedTime();
+    private double lastError = 0;*/
 
     // code to run while play
     @Override
@@ -91,17 +91,17 @@ public class MecanumAuto extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-        runtime.reset();
+        //runtime.reset();
         startToFreight();
         toHub();
 
         while (opModeIsActive()) {
-            runtime.reset();
+            //runtime.reset();
             while (runtime.milliseconds() < 20000) {
                 backToFreight();
                 toHub();
-                double power = PIDControl(100, linearSlides.getCurrentPosition());
-                linearSlides.setPower(power);
+                //double power = PIDControl(100, linearSlides.getCurrentPosition());
+                //linearSlides.setPower(power);
             }
         }
 
@@ -298,7 +298,7 @@ public class MecanumAuto extends LinearOpMode{
         stopMoving();
     }
 
-    public double PIDControl(double reference, double state) {
+    /*public double PIDControl(double reference, double state) {
         double error = reference - state;
         integralSum += error + timer.seconds();
         double derivative = (error - lastError) / timer.seconds();
@@ -308,5 +308,5 @@ public class MecanumAuto extends LinearOpMode{
 
         double output = (error * kP) + (derivative * kD) + (integralSum * kI);
         return output;
-    }
+    }*/
 }
