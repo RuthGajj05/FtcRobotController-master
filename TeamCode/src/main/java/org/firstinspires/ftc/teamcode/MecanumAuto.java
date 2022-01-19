@@ -91,7 +91,7 @@ public class MecanumAuto extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-        //runtime.reset();
+        runtime.reset();
         startToFreight();
         toHub();
 
