@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "IntakeCarouselSlides Test")
 public class LinearSlidesTest extends LinearOpMode {
-    DcMotor carousel = null;
-    DcMotor intake = null;
-    DcMotor linearSlides = null;
-    HardwareMap hwMap = null;
+    DcMotor carousel;
+    DcMotor intake;
+    DcMotor linearSlides;
+    HardwareMap hwMap;
     public void init(HardwareMap Map) {
         carousel = hwMap.get(DcMotor.class, "Carousel");
         intake = hwMap.get(DcMotor.class, "Intake");
@@ -31,31 +31,34 @@ public class LinearSlidesTest extends LinearOpMode {
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        carousel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        linearSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        carousel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        linearSlides.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
     }
     CompAuto auto = new CompAuto();
     private ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() {
-        runtime.reset();
         waitForStart();
+        runtime.reset();
         while (opModeIsActive()) {
             runtime.reset();
             while (runtime.milliseconds() < 20000) {
                 intake();
                 sleep(10000);
-                auto.stopMoving();
+                stopMoving();
             }
-            while (runtime.milliseconds() < 40000){
+            /*while (runtime.milliseconds() < 40000){
                 moveSlides();
                 sleep(5000);
                 auto.stopMoving();
-            }
-            while (runtime.milliseconds() < 60000) {
+            }*/
+            while (runtime.milliseconds() < 40000) {
                 carousel();
                 sleep(10000);
-                auto.stopMoving();
+                stopMoving();
+
             }
         }
     }
@@ -63,9 +66,14 @@ public class LinearSlidesTest extends LinearOpMode {
         auto.moveSlides(2);
     }
     public void intake() {
-        auto.getIntake(1);
+        intake.setPower(1);
     }
     public void carousel() {
-        auto.spinCarousel();
+        carousel.setPower(0.5);
+    }
+    public void stopMoving() {
+        carousel.setPower(0);
+        intake.setPower(0);
+        linearSlides.setPower(0);
     }
 }
