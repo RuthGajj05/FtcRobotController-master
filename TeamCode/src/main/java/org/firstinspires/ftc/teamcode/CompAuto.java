@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
@@ -15,6 +16,7 @@ public class CompAuto extends LinearOpMode{
     DcMotor l2 = null;
     DcMotor carousel = null;
     DcMotor intake = null;
+    Servo drop = null;
     DcMotor linearSlides = null;
     HardwareMap hwMap = null;
 
@@ -30,11 +32,14 @@ public class CompAuto extends LinearOpMode{
 
     double diameterCarouselWheel = 3;
 
-    double slideLevel = 0;
+    int slideLevel = 0;
     double level0Distance = 3;
     double level1Distance = 8.5;
     double level2Distance = 14.75;
     double diameterLinearWheel = 1.49606;
+
+    double dropStart = 0.0;
+    double dropSpeed = 0.1;
 
     // init code
     public void init(HardwareMap Map) {
@@ -44,6 +49,7 @@ public class CompAuto extends LinearOpMode{
         l2 = hwMap.get(DcMotor.class, "l2");
         carousel = hwMap.get(DcMotor.class, "Carousel");
         intake = hwMap.get(DcMotor.class, "Intake");
+        drop = hwMap.get(Servo.class, "Drop");
         linearSlides = hwMap.get(DcMotor.class, "Linear Slides");
 
         r1.setDirection(DcMotor.Direction.REVERSE);
@@ -52,6 +58,7 @@ public class CompAuto extends LinearOpMode{
         l2.setDirection(DcMotor.Direction.FORWARD);
         carousel.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.FORWARD);
+        drop.setDirection(Servo.Direction.FORWARD);
         linearSlides.setDirection(DcMotor.Direction.FORWARD);
 
         r1.setPower(0);
@@ -60,6 +67,7 @@ public class CompAuto extends LinearOpMode{
         l2.setPower(0);
         carousel.setPower(0);
         intake.setPower(0);
+        drop.setPosition(dropStart);
         linearSlides.setPower(0);
 
         r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -76,6 +84,7 @@ public class CompAuto extends LinearOpMode{
         l2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         carousel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        drop.resetDeviceConfigurationForOpMode();
         linearSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     // elapsed time function
@@ -306,7 +315,7 @@ public class CompAuto extends LinearOpMode{
             moveSlides(level1Distance);
         }
         else if (levelToGo == 2){
-            getTarget(level2Distance);
+            moveSlides(level2Distance);
         }
     }
     // moves slides :V
@@ -320,7 +329,7 @@ public class CompAuto extends LinearOpMode{
         linearSlides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlides.setPower(1);
     }
-    public void detectBarcode() {
 
+    public void dropFreight() {
     }
 }

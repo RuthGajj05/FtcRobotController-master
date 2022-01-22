@@ -97,6 +97,7 @@ public class VuforiaObjectDetection extends LinearOpMode {
      * Detection engine.
      */
     private TFObjectDetector tfod;
+    CompAuto auto = new CompAuto();
 
     @Override
     public void runOpMode() {
@@ -145,27 +146,30 @@ public class VuforiaObjectDetection extends LinearOpMode {
                                 recognition.getRight(), recognition.getBottom());
 
                         if (recognition.getLabel() == "Duck") {
-                            if (1 <= recognition.getRight() || recognition.getRight() >= 3) {
-                                if (1 <= recognition.getTop() || recognition.getTop() >= 3) {
-                                    if (1 <= recognition.getBottom() || recognition.getBottom() >= 3) {
-                                        if (1 <= recognition.getLeft() || recognition.getLeft() >= 3) {
-
+                            if (1 <= recognition.getRight() && recognition.getRight() >= 3) {
+                                if (1 <= recognition.getTop() && recognition.getTop() >= 3) {
+                                    if (1 <= recognition.getBottom() && recognition.getBottom() >= 3) {
+                                        if (1 <= recognition.getLeft() && recognition.getLeft() >= 3) {
+                                            auto.setSlideDistance(0);
                                         }
                                     }
                                 }
                             }
-                            else if (1 <= recognition.getRight() || recognition.getRight() >= 3) {
-                                if (1 <= recognition.getTop() || recognition.getTop() >= 3) {
-                                    if (1 <= recognition.getBottom() || recognition.getBottom() >= 3) {
-                                        if (1 <= recognition.getLeft() || recognition.getLeft() >= 3) {
-
+                            else if (1 <= recognition.getRight() && recognition.getRight() >= 3) {
+                                if (1 <= recognition.getTop() && recognition.getTop() >= 3) {
+                                    if (1 <= recognition.getBottom() && recognition.getBottom() >= 3) {
+                                        if (1 <= recognition.getLeft() && recognition.getLeft() >= 3) {
+                                            auto.setSlideDistance(1);
                                         }
                                     }
                                 }
                             }
                             else {
-
+                                auto.setSlideDistance(2);
                             }
+                        }
+                        else {
+                            auto.setSlideDistance(2);
                         }
 
                         i++;
