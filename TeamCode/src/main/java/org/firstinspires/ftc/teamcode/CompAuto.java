@@ -18,7 +18,7 @@ public class CompAuto extends LinearOpMode{
     DcMotor linearSlides = null;
     HardwareMap hwMap = null;
 
-    // declare variables
+    // declare variables (¡Lo siento!)
     double startToFreight = 20;
     double freightToWall = 59;
     double wallToHub = 56;
@@ -29,6 +29,9 @@ public class CompAuto extends LinearOpMode{
     double robotWidth = 11.25;
 
     double diameterCarouselWheel = 3;
+
+    double slideLevel = 0;
+    double slideDistance;
 
     // init code
     public void init(HardwareMap Map) {
@@ -288,4 +291,39 @@ public class CompAuto extends LinearOpMode{
         }
         stopMoving();
     }
+    // set linear slide distance :o
+    public void setSlideDistance() {
+        resetEncoder();
+    }
+    // linear slides method :)
+    public void setLinearSlides(int currentLevel, boolean level1, boolean level2, boolean level3) {
+        if (currentLevel == 0 && level1 == true && level2 == false && level3 == false) {
+
+        }
+        else if (currentLevel == 0 && level1 == false && level2 == true && level3 == false) {
+
+        }
+        else if (currentLevel == 0 && level1 == false && level2 == false && level3 == true) {
+
+        }
+        else if (currentLevel == 1 && level1 == true && level2 == false && level3 == false) {
+
+        }
+        else if (currentLevel == 1 && level1 == false && level2 == true && level3 == false) {
+
+        }
+        else if (currentLevel == 1 && level1 == false && level2 == false && level3 == true) {
+
+        }
+        else if (currentLevel == 2 && level1 == true && level2 == false && level3 == false) {
+
+        }
+        else if (currentLevel == 2 && level1 == true && level2 == false && level3 == false) {
+
+        }
+        else if (currentLevel == 2 && level1 == true && level2 == false && level3 == false) {
+
+        }
+    }
+
 }
