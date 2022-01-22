@@ -74,7 +74,7 @@ public class CompAuto extends LinearOpMode{
     }
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
-    private VuforiaObjectDetection webcam = new VuforiaObjectDetection();
+    VuforiaObjectDetection webcam = new VuforiaObjectDetection();
 
     // code to run while play
     @Override
