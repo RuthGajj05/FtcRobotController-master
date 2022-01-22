@@ -31,7 +31,10 @@ public class CompAuto extends LinearOpMode{
     double diameterCarouselWheel = 3;
 
     double slideLevel = 0;
-    double slideDistance;
+    double level0Distance = 3;
+    double level1Distance = 8.5;
+    double level2Distance = 14.75;
+    double diameterLinearWheel = 1.49606;
 
     // init code
     public void init(HardwareMap Map) {
@@ -203,6 +206,8 @@ public class CompAuto extends LinearOpMode{
         double distanceInTicks = circumference * ticksPerInch * 1.59;
 
         carousel.setTargetPosition((int) distanceInTicks);
+        carousel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        carousel.setPower(1);
     }
     // start position to freight
     public void startToFreight() {
@@ -291,39 +296,31 @@ public class CompAuto extends LinearOpMode{
         }
         stopMoving();
     }
-    // set linear slide distance :o
-    public void setSlideDistance() {
+    // sets linear slide distance :o
+    public void setSlideDistance(int levelToGo) {
         resetEncoder();
-    }
-    // linear slides method :)
-    public void setLinearSlides(int currentLevel, boolean level1, boolean level2, boolean level3) {
-        if (currentLevel == 0 && level1 == true && level2 == false && level3 == false) {
-
+        if (levelToGo == 0) {
+            moveSlides(level0Distance);
         }
-        else if (currentLevel == 0 && level1 == false && level2 == true && level3 == false) {
-
+        else if (levelToGo == 1) {
+            moveSlides(level1Distance);
         }
-        else if (currentLevel == 0 && level1 == false && level2 == false && level3 == true) {
-
-        }
-        else if (currentLevel == 1 && level1 == true && level2 == false && level3 == false) {
-
-        }
-        else if (currentLevel == 1 && level1 == false && level2 == true && level3 == false) {
-
-        }
-        else if (currentLevel == 1 && level1 == false && level2 == false && level3 == true) {
-
-        }
-        else if (currentLevel == 2 && level1 == true && level2 == false && level3 == false) {
-
-        }
-        else if (currentLevel == 2 && level1 == true && level2 == false && level3 == false) {
-
-        }
-        else if (currentLevel == 2 && level1 == true && level2 == false && level3 == false) {
-
+        else if (levelToGo == 2){
+            getTarget(level2Distance);
         }
     }
+    // moves slides :V
+    public void moveSlides(double slideDistance) {
+        double ticks = 537.7;
+        double circumference = diameterLinearWheel * 3.14;
+        double ticksPerInch = ticks/circumference;
+        double distanceInTicks = circumference * ticksPerInch * slideDistance;
 
+        linearSlides.setTargetPosition((int) distanceInTicks);
+        linearSlides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        linearSlides.setPower(1);
+    }
+    public void detectBarcode() {
+
+    }
 }
