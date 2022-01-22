@@ -39,6 +39,7 @@ public class LinearSlidesTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() {
         runtime.reset();
+        waitForStart();
         while (opModeIsActive()) {
             runtime.reset();
             while (runtime.milliseconds() < 20000) {

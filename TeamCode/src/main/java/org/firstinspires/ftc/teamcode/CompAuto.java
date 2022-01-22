@@ -90,7 +90,7 @@ public class CompAuto extends LinearOpMode{
     }
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
-    VuforiaObjectDetection webcam = new VuforiaObjectDetection();
+    //VuforiaObjectDetection webcam = new VuforiaObjectDetection();
 
     // code to run while play
     @Override
@@ -98,14 +98,14 @@ public class CompAuto extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-        webcam.runOpMode();
+        //webcam.runOpMode();
         runtime.reset();
         startToFreight();
         toHub();
 
         while (opModeIsActive()) {
             runtime.reset();
-            webcam.runOpMode();
+            //webcam.runOpMode();
             while (runtime.milliseconds() < 20000) {
                 backToFreight();
                 toHub();
