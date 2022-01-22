@@ -74,6 +74,7 @@ public class MecanumAuto extends LinearOpMode{
     }
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
+    private
 
     // code to run while play
     @Override
