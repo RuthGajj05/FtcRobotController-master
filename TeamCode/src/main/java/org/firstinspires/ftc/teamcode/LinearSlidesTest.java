@@ -38,6 +38,7 @@ public class LinearSlidesTest extends LinearOpMode {
     CompAuto auto = new CompAuto();
     private ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() {
+        init(hardwareMap);
         runtime.reset();
         waitForStart();
         while (opModeIsActive()) {
@@ -47,11 +48,11 @@ public class LinearSlidesTest extends LinearOpMode {
                 sleep(10000);
                 auto.stopMoving();
             }
-            while (runtime.milliseconds() < 40000){
+            /*while (runtime.milliseconds() < 40000){
                 moveSlides();
                 sleep(5000);
                 auto.stopMoving();
-            }
+            }*/
             while (runtime.milliseconds() < 60000) {
                 carousel();
                 sleep(10000);
