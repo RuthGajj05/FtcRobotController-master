@@ -143,6 +143,31 @@ public class VuforiaObjectDetection extends LinearOpMode {
                                           recognition.getLeft(), recognition.getTop());
                         telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                 recognition.getRight(), recognition.getBottom());
+
+                        if (recognition.getLabel() == "Duck") {
+                            if (1 <= recognition.getRight() || recognition.getRight() >= 3) {
+                                if (1 <= recognition.getTop() || recognition.getTop() >= 3) {
+                                    if (1 <= recognition.getBottom() || recognition.getBottom() >= 3) {
+                                        if (1 <= recognition.getLeft() || recognition.getLeft() >= 3) {
+
+                                        }
+                                    }
+                                }
+                            }
+                            else if (1 <= recognition.getRight() || recognition.getRight() >= 3) {
+                                if (1 <= recognition.getTop() || recognition.getTop() >= 3) {
+                                    if (1 <= recognition.getBottom() || recognition.getBottom() >= 3) {
+                                        if (1 <= recognition.getLeft() || recognition.getLeft() >= 3) {
+
+                                        }
+                                    }
+                                }
+                            }
+                            else {
+
+                            }
+                        }
+
                         i++;
                       }
                       telemetry.update();
