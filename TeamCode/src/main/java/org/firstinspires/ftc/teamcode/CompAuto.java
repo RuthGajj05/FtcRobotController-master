@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -57,9 +58,9 @@ public class CompAuto extends LinearOpMode{
         l1.setDirection(DcMotor.Direction.FORWARD);
         l2.setDirection(DcMotor.Direction.FORWARD);
         carousel.setDirection(DcMotor.Direction.FORWARD);
-        intake.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.REVERSE);
         drop.setDirection(Servo.Direction.FORWARD);
-        linearSlides.setDirection(DcMotor.Direction.FORWARD);
+        linearSlides.setDirection(DcMotor.Direction.REVERSE);
 
         r1.setPower(0);
         r2.setPower(0);
@@ -216,7 +217,7 @@ public class CompAuto extends LinearOpMode{
 
         carousel.setTargetPosition((int) distanceInTicks);
         carousel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        carousel.setPower(1);
+        carousel.setPower(0.5);
     }
     // start position to freight
     public void startToFreight() {
