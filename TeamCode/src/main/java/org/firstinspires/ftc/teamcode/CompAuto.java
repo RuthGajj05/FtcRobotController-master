@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
-public class MecanumAuto extends LinearOpMode{
+public class CompAuto extends LinearOpMode{
     // initialize motors :(
     DcMotor r1 = null;
     DcMotor r2 = null;
@@ -74,7 +74,7 @@ public class MecanumAuto extends LinearOpMode{
     }
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
-    private
+    private VuforiaObjectDetection webcam = new VuforiaObjectDetection();
 
     // code to run while play
     @Override
@@ -82,12 +82,14 @@ public class MecanumAuto extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
+        webcam.runOpMode();
         runtime.reset();
         startToFreight();
         toHub();
 
         while (opModeIsActive()) {
             runtime.reset();
+            webcam.runOpMode();
             while (runtime.milliseconds() < 20000) {
                 backToFreight();
                 toHub();
