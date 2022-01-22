@@ -207,6 +207,9 @@ public class CompAuto extends LinearOpMode{
         r2.setPower(0);
         l1.setPower(0);
         l2.setPower(0);
+        carousel.setPower(0);
+        intake.setPower(0);
+        linearSlides.setPower(0);
     }
     // spin carousel
     public void spinCarousel() {

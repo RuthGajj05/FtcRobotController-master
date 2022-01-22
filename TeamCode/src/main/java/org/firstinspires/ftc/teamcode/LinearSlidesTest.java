@@ -36,10 +36,27 @@ public class LinearSlidesTest extends LinearOpMode {
         linearSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     CompAuto auto = new CompAuto();
+    private ElapsedTime runtime = new ElapsedTime();
     public void runOpMode() {
-        intake();
-        moveSlides();
-        carousel();
+        runtime.reset();
+        while (opModeIsActive()) {
+            runtime.reset();
+            while (runtime.milliseconds() < 20000) {
+                intake();
+                sleep(10000);
+                auto.stopMoving();
+            }
+            while (runtime.milliseconds() < 40000){
+                moveSlides();
+                sleep(10000);
+                auto.stopMoving();
+            }
+            while (runtime.milliseconds() < 60000) {
+                carousel();
+                sleep(10000);
+                auto.stopMoving();
+            }
+        }
     }
     public void moveSlides() {
         auto.moveSlides(2);
