@@ -12,7 +12,7 @@ import java.util.List;
 //@Disabled
 public class CompTeleOp extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    TerraBot bot = new TerraBot();
+    CompTeleBot bot = new CompTeleBot();
 
 
     @Override
