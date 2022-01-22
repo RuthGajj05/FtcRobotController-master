@@ -48,7 +48,7 @@ public class LinearSlidesTest extends LinearOpMode {
             }
             while (runtime.milliseconds() < 40000){
                 moveSlides();
-                sleep(10000);
+                sleep(5000);
                 auto.stopMoving();
             }
             while (runtime.milliseconds() < 60000) {
