@@ -30,13 +30,6 @@ public class MecanumAuto extends LinearOpMode{
 
     double diameterCarouselWheel = 3;
 
-    // declares PID constants
-    double integralSum = 0;
-
-    double kP = 0;
-    double kD = 0;
-    double kI = 0;
-
     // init code
     public void init(HardwareMap Map) {
         r1 = hwMap.get(DcMotor.class, "r1");
@@ -82,9 +75,6 @@ public class MecanumAuto extends LinearOpMode{
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
 
-    /*ElapsedTime timer = new ElapsedTime();
-    private double lastError = 0;*/
-
     // code to run while play
     @Override
     public void runOpMode() {
@@ -100,8 +90,6 @@ public class MecanumAuto extends LinearOpMode{
             while (runtime.milliseconds() < 20000) {
                 backToFreight();
                 toHub();
-                //double power = PIDControl(100, linearSlides.getCurrentPosition());
-                //linearSlides.setPower(power);
             }
         }
 
@@ -297,16 +285,4 @@ public class MecanumAuto extends LinearOpMode{
         }
         stopMoving();
     }
-
-    /*public double PIDControl(double reference, double state) {
-        double error = reference - state;
-        integralSum += error + timer.seconds();
-        double derivative = (error - lastError) / timer.seconds();
-        lastError = error;
-
-        timer.reset();
-
-        double output = (error * kP) + (derivative * kD) + (integralSum * kI);
-        return output;
-    }*/
 }
