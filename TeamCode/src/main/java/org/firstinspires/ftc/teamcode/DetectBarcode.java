@@ -88,7 +88,7 @@ public class DetectBarcode extends LinearOpMode
 
         // These are the vision targets that we want to use
         // The string needs to be the name of the appropriate .xml file in the assets folder
-        visionTargets = vuforiaLocalizer.loadTrackablesFromAsset("FTC_2016-17");
+        visionTargets = vuforiaLocalizer.loadTrackablesFromAsset("waterBottle");
         Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 4);
 
         // Setup the target to be tracked

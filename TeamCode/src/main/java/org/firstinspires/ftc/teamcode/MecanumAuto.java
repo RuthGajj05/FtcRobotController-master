@@ -96,7 +96,7 @@ public class MecanumAuto extends LinearOpMode{
         toHub();
 
         while (opModeIsActive()) {
-            //runtime.reset();
+            runtime.reset();
             while (runtime.milliseconds() < 20000) {
                 backToFreight();
                 toHub();
