@@ -329,7 +329,13 @@ public class CompAuto extends LinearOpMode{
         linearSlides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         linearSlides.setPower(1);
     }
-
+    // drop freight ;)
     public void dropFreight() {
+
+    }
+
+    public void getIntake(double power) {
+        resetEncoder();
+        intake.setPower(power);
     }
 }
