@@ -19,7 +19,7 @@ public class CompAuto extends LinearOpMode{
     DcMotor intake = null;
     Servo drop = null;
     DcMotor linearSlides = null;
-    HardwareMap hwMap = null;
+    HardwareMap hwMap;
 
     // declare variables (¡Lo siento!)
     double startToFreight = 20;
@@ -95,6 +95,7 @@ public class CompAuto extends LinearOpMode{
     // code to run while play
     @Override
     public void runOpMode() {
+        init(hwMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
