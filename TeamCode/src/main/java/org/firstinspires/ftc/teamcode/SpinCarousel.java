@@ -21,7 +21,7 @@ public class SpinCarousel extends LinearOpMode {
 
     double level1Height;
     double level2Height;
-    double level3Height;
+    double level3Height = 19;
 
     public void init(HardwareMap Map) {
         carousel = hardwareMap.get(DcMotor.class, "Carousel");
@@ -61,7 +61,7 @@ public class SpinCarousel extends LinearOpMode {
 
         spinCarousel(carouselCircumference, 2.5);
         spinIntake();
-        moveSlides(6, 0);
+        moveSlides(6, level3Height, 0.2);
 
         telemetry.addData("Status", "End");
         telemetry.update();
@@ -94,7 +94,7 @@ public class SpinCarousel extends LinearOpMode {
         intake.setPower(0);
     }
 
-    public void moveSlides(double timeout, double intakeHeight) {
+    public void moveSlides(double timeout, double slidesHeight, double power) {
         /*slides.setPower(0.1);
         sleep(6000);
         slides.setPower(0);
@@ -103,32 +103,32 @@ public class SpinCarousel extends LinearOpMode {
         sleep(4500);
         slides.setPower(0);*/
 
-        double distanceInTicks = intakeHeight * ticksPerInch;
+        double distanceInTicks = slidesHeight * ticksPerInch;
         carousel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         carousel.setTargetPosition((int) distanceInTicks);
-        carousel.setPower(0.1);
+        carousel.setPower(power);
 
         slides.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slides.setTargetPosition(537);
+        slides.setTargetPosition((int) distanceInTicks);
         slides.setPower(0.1);
         if (opModeIsActive() && runtime.seconds() < timeout && intake.isBusy()) {
             while (opModeIsActive()) {
-                telemetry.addData("Slides", "Moving to Level %7d, %7d height", intakeHeight, distanceInTicks);
+                telemetry.addData("Slides", "Moving to Level %7d, %7d height", slidesHeight, distanceInTicks);
                 intake.getCurrentPosition();
                 telemetry.update();
             }
         }
 
         slides.setPower(0);
-
+        runtime.reset();
         slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slides.setTargetPosition(537);
-        slides.setPower(-0.1);
-        if (opModeIsActive() && runtime.seconds() < timeout && intake.isBusy()) {
+        slides.setTargetPosition((int) distanceInTicks);
+        slides.setPower(-power/2);
+        if (opModeIsActive() && runtime.seconds() < timeout && slides.isBusy()) {
             while (opModeIsActive()) {
-                telemetry.addData("Slides", "Moving to Level %7d, %7d height", intakeHeight, distanceInTicks);
+                telemetry.addData("Slides", "Moving to Level %7d, %7d height", slidesHeight, distanceInTicks);
                 intake.getCurrentPosition();
                 telemetry.update();
             }
