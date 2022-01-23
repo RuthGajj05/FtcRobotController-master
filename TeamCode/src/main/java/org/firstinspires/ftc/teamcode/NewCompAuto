@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
-public class NewCompAuto extends LinearOpMode{
+public class NewCompAuto extends LinearOpMode {
     // initialize motors :(
     DcMotor r1 = null;
     DcMotor r2 = null;
@@ -16,25 +16,26 @@ public class NewCompAuto extends LinearOpMode{
     DcMotor l2 = null;
     DcMotor carousel = null;
     DcMotor intake = null;
-    Servo drop = null;
+    //Servo drop = null;
     DcMotor linearSlides = null;
-    HardwareMap hwMap = null;
+    HardwareMap hwMap;
 
     // declare variables (¡Lo siento!)
 
     double dropStart = 0.0;
     double dropSpeed = 0.1;
+    double servoPos = 0;
 
     // init code
     public void init(HardwareMap Map) {
-        r1 = hwMap.get(DcMotor.class, "r1");
-        r2 = hwMap.get(DcMotor.class, "r2");
-        l1 = hwMap.get(DcMotor.class, "l1");
-        l2 = hwMap.get(DcMotor.class, "l2");
-        carousel = hwMap.get(DcMotor.class, "Carousel");
-        intake = hwMap.get(DcMotor.class, "Intake");
-        drop = hwMap.get(Servo.class, "Drop");
-        linearSlides = hwMap.get(DcMotor.class, "Linear Slides");
+        r1 = hardwareMap.get(DcMotor.class, "r1");
+        r2 = hardwareMap.get(DcMotor.class, "r2");
+        l1 = hardwareMap.get(DcMotor.class, "l1");
+        l2 = hardwareMap.get(DcMotor.class, "l2");
+        carousel = hardwareMap.get(DcMotor.class, "Carousel");
+        intake = hardwareMap.get(DcMotor.class, "Intake");
+        //drop = hardwareMap.get(Servo.class, "Drop");
+        linearSlides = hardwareMap.get(DcMotor.class, "Linear Slides");
 
         r1.setDirection(DcMotor.Direction.REVERSE);
         r2.setDirection(DcMotor.Direction.REVERSE);
@@ -42,7 +43,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setDirection(DcMotor.Direction.FORWARD);
         carousel.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.REVERSE);
-        drop.setDirection(Servo.Direction.FORWARD);
+        //drop.setDirection(Servo.Direction.FORWARD);
         linearSlides.setDirection(DcMotor.Direction.REVERSE);
 
         r1.setPower(0);
@@ -51,7 +52,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setPower(0);
         carousel.setPower(0);
         intake.setPower(0);
-        drop.setPosition(dropStart);
+        //drop.setPosition(dropStart);
         linearSlides.setPower(0);
 
         r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -68,9 +69,10 @@ public class NewCompAuto extends LinearOpMode{
         l2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         carousel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        drop.resetDeviceConfigurationForOpMode();
+        //drop.resetDeviceConfigurationForOpMode();
         linearSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
     //VuforiaObjectDetection webcam = new VuforiaObjectDetection();
@@ -84,25 +86,27 @@ public class NewCompAuto extends LinearOpMode{
         waitForStart();
         //webcam.runOpMode();
         runtime.reset();
-        startToFreight();
+        startToHub();
+        //linearSlides();
+        toFreight();
         toHub();
+        //linearSlides();
+        toCarousel();
+        //spinCarousel();
+        toLandingZone();
 
         while (opModeIsActive()) {
             runtime.reset();
-            //webcam.runOpMode();
-            while (runtime.milliseconds() < 20000) {
-                backToFreight();
-                toHub();
             }
         }
-
+/*
         toCarousel();
         spinCarousel();
         toLandingZone();
     }
     // resets encoders
     // calculates distance in ticks
-
+*/
     // moves forward
     public void moveForward(double power, int time) {
         r1.setPower(power);
@@ -111,6 +115,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setPower(power);
         sleep(time);
     }
+
     // moves right
     public void moveRight(double power, int time) {
         r1.setPower(power);
@@ -119,6 +124,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setPower(-power);
         sleep(time);
     }
+
     // move lefts
     public void moveLeft(double power, int time) {
         r1.setPower(-power);
@@ -127,6 +133,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setPower(power);
         sleep(time);
     }
+
     // moves backward
     public void moveBackward(double power, int time) {
         r1.setPower(power);
@@ -135,6 +142,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setPower(-power);
         sleep(time);
     }
+
     // spins rights
     public void spinRight(double power, int time) {
         r1.setPower(power);
@@ -143,6 +151,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setPower(power);
         sleep(time);
     }
+
     // spins left
     public void spinLeft(double power, int time) {
         r1.setPower(-power);
@@ -151,6 +160,7 @@ public class NewCompAuto extends LinearOpMode{
         l2.setPower(-power);
         sleep(time);
     }
+
     // stop moving
     public void stopMoving(int time) {
         r1.setPower(0);
@@ -162,59 +172,19 @@ public class NewCompAuto extends LinearOpMode{
         linearSlides.setPower(0);
         sleep(time);
     }
+
     // spin carousel
+    //prob 3
     public void spinCarousel(int time) {
         carousel.setPower(0.1);
         sleep(time);
     }
-    
-    public void startToHub() {
-        moveBackward(0.75, 500);
-    }
-    // start position to freight
-    public void toFreight() {
-        moveForward(0.75, 1000);
-        spinLeft(0.5,300);
-        spinIntake();
-        moveForward(0.75,2000);
-        stopMoving();
-        spinRight(1, 2000);
-    }
-    // freight to hub
-    public void toHub() {
-        moveBackward(0.5, 2000);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
 
-        spinLeft(0.5, 1000);
-        moveBackward(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-        stopMoving();
-    }
-    
-    // hub to carousel
-    public void toCarousel() {
-        spinRight(0.5, 500);
-        moveForward(0.75, 3000);
-        
-    }
-    // carousel to landing zone
-    public void toLandingZone() {
-        moveRight(0.5,1500);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-        stopMoving();
-    }
-    // sets linear slide distance :o
     public void spinIntake() {
         intake.setPower(0.1);
-        sleep(500)
+        sleep(500);
     }
-
+    //8 seconds
     public void linearSlides(double power1, double power2) {
         linearSlides.setPower(power1);
         sleep(3000);
@@ -223,5 +193,49 @@ public class NewCompAuto extends LinearOpMode{
         linearSlides.setPower(power2);
         sleep(3500);
         linearSlides.setPower(0);
+    }
+
+    //0.5 seconds
+    public void startToHub() {
+        moveBackward(0.75, 500);
+        spinRight(0.5, 300);
+        moveBackward(0.75, 1000);
+        linearSlides(0.25, -0.1);
+    }
+
+    // start position to freight
+    //5.3
+    public void toFreight() {
+        moveForward(0.75, 1000);
+        spinLeft(0.5, 300);
+        spinIntake();
+        moveForward(0.75, 2000);
+        spinRight(1, 2000);
+        stopMoving(100);
+    }
+
+    // freight to hub
+    //4s
+    public void toHub() {
+        moveBackward(0.5, 2000);
+        spinRight(0.5, 300);
+        moveBackward(0.75, 1000);
+        linearSlides(0.25, -0.1);
+        stopMoving(100);
+    }
+
+    // hub to carousel
+    //3.5
+    public void toCarousel() {
+        spinRight(0.5, 500);
+        moveForward(0.75, 3000);
+        spinCarousel(3000);
+    }
+
+    // carousel to landing zone
+    //1.5s
+    public void toLandingZone() {
+        moveRight(0.5, 1500);
+        stopMoving(100);
     }
 }
