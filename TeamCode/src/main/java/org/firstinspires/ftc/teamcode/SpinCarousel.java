@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous
 public class SpinCarousel extends LinearOpMode {
-    DcMotor carousel = null;
+    DcMotor carousel;
     HardwareMap hwMap = null;
     double ticks = 537.7;
     double cWheelCircumference = 11.87;
@@ -32,18 +32,23 @@ public class SpinCarousel extends LinearOpMode {
         while (opModeIsActive()) {
             runtime.reset();
             while (runtime.milliseconds() < 20000) {
+                telemetry.addData("Status", "Start");
                 spinCarousel(carouselCircumference);
                 stopCarousel();
+                telemetry.addData("Status", "Stopped");
             }
         }
 
     }
 
     public void spinCarousel(double distanceInInches) {
+        telemetry.addData("Status", "Starting");
         carousel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        telemetry.addData("Status", "Reset");
         double distanceInTicks = distanceInInches * ticksPerInch;
         carousel.setTargetPosition((int) distanceInTicks);
         carousel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        telemetry.addData("Status", "Running to Position");
         carousel.setPower(0.5);
     }
 
