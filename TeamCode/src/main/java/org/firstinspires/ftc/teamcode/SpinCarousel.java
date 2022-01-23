@@ -72,7 +72,6 @@ public class SpinCarousel extends LinearOpMode {
     }
 
     public void spinCarousel(double distanceInInches, double timeout) {
-        // error here
         double distanceInTicks = distanceInInches * ticksPerInch;
         carousel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         carousel.setTargetPosition((int) distanceInTicks);
