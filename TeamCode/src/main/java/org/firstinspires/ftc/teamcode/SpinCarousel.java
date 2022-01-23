@@ -5,15 +5,22 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Hardware;
 
 @Autonomous
 public class SpinCarousel extends LinearOpMode {
+    DcMotor r1 = null;
+    DcMotor r2 = null;
+    DcMotor l1 = null;
+    DcMotor l2 = null;
     DcMotor carousel;
     DcMotor intake;
     DcMotor slides;
+    Servo drop = null;
     HardwareMap hwMap;
+
     double ticks = 537.7;
     double cWheelCircumference = 3 * 3.14;
     double ticksPerInch = ticks/cWheelCircumference;
@@ -24,22 +31,45 @@ public class SpinCarousel extends LinearOpMode {
     double level3Height = 19;
 
     public void init(HardwareMap Map) {
+        r1 = hwMap.get(DcMotor.class, "r1");
+        r2 = hwMap.get(DcMotor.class, "r2");
+        l1 = hwMap.get(DcMotor.class, "l1");
+        l2 = hwMap.get(DcMotor.class, "l2");
+        drop = hwMap.get(Servo.class, "Drop");
         carousel = hardwareMap.get(DcMotor.class, "Carousel");
         intake = hardwareMap.get(DcMotor.class, "Intake");
         slides = hardwareMap.get(DcMotor.class, "Linear Slides");
 
+        r1.setDirection(DcMotor.Direction.REVERSE);
+        r2.setDirection(DcMotor.Direction.REVERSE);
+        l1.setDirection(DcMotor.Direction.FORWARD);
+        l2.setDirection(DcMotor.Direction.FORWARD);
+        drop.setDirection(Servo.Direction.FORWARD);
         carousel.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotor.Direction.FORWARD);
         slides.setDirection(DcMotor.Direction.FORWARD);
 
+        r1.setPower(0);
+        r2.setPower(0);
+        l1.setPower(0);
+        l2.setPower(0);
+        drop.setPosition(0);
         carousel.setPower(0);
         intake.setPower(0);
         slides.setPower(0);
 
+        r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        r2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        l1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        l2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         carousel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slides.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        r1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        r2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        l1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        l2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         carousel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -120,6 +150,7 @@ public class SpinCarousel extends LinearOpMode {
         }
 
         slides.setPower(0);
+
         runtime.reset();
         slides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -136,5 +167,46 @@ public class SpinCarousel extends LinearOpMode {
         slides.setPower(0);
     }
 
-
+    // moves forward
+    public void moveForward(double power) {
+        r1.setPower(power);
+        r2.setPower(-power);
+        l1.setPower(-power);
+        l2.setPower(power);
+    }
+    // moves right
+    public void moveRight(double power) {
+        r1.setPower(power);
+        r2.setPower(-power);
+        l1.setPower(power);
+        l2.setPower(-power);
+    }
+    // move lefts
+    public void moveLeft(double power) {
+        r1.setPower(-power);
+        r2.setPower(power);
+        l1.setPower(-power);
+        l2.setPower(power);
+    }
+    // moves backward
+    public void moveBackward(double power) {
+        r1.setPower(power);
+        r2.setPower(power);
+        l1.setPower(-power);
+        l2.setPower(-power);
+    }
+    // spins rights
+    public void spinRight(double power, double distance) {
+        r1.setPower(power);
+        r2.setPower(power);
+        l1.setPower(power);
+        l2.setPower(power);
+    }
+    // spins left
+    public void spinLeft(double power, double distance) {
+        r1.setPower(-power);
+        r2.setPower(-power);
+        l1.setPower(-power);
+        l2.setPower(-power);
+    }
 }
