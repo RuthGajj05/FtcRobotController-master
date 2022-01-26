@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
-public class CompAuto extends LinearOpMode{
+public class NewCompAuto extends LinearOpMode {
     // initialize motors :(
     DcMotor r1 = null;
     DcMotor r2 = null;
@@ -22,36 +22,21 @@ public class CompAuto extends LinearOpMode{
     HardwareMap hwMap;
 
     // declare variables (¡Lo siento!)
-    double startToFreight = 20;
-    double freightToWall = 59;
-    double wallToHub = 56;
-    double wallToCarousel = 118;
-    double wallToEnd;
-
-    double robotLength;
-    double robotWidth = 11.25;
-
-    double diameterCarouselWheel = 3;
-
-    int slideLevel = 0;
-    double level0Distance = 3;
-    double level1Distance = 8.5;
-    double level2Distance = 14.75;
-    double diameterLinearWheel = 1.49606;
 
     double dropStart = 0.0;
-    double dropSpeed = 0.1;
+    double dropRiseFall = dropStart + 0.1;
+    double dropEnd = dropStart + 0.5;
 
     // init code
     public void init(HardwareMap Map) {
-        r1 = hwMap.get(DcMotor.class, "r1");
-        r2 = hwMap.get(DcMotor.class, "r2");
-        l1 = hwMap.get(DcMotor.class, "l1");
-        l2 = hwMap.get(DcMotor.class, "l2");
-        carousel = hwMap.get(DcMotor.class, "Carousel");
-        intake = hwMap.get(DcMotor.class, "Intake");
-        drop = hwMap.get(Servo.class, "Drop");
-        linearSlides = hwMap.get(DcMotor.class, "Linear Slides");
+        r1 = hardwareMap.get(DcMotor.class, "r1");
+        r2 = hardwareMap.get(DcMotor.class, "r2");
+        l1 = hardwareMap.get(DcMotor.class, "l1");
+        l2 = hardwareMap.get(DcMotor.class, "l2");
+        carousel = hardwareMap.get(DcMotor.class, "Carousel");
+        intake = hardwareMap.get(DcMotor.class, "Intake");
+        drop = hardwareMap.get(Servo.class, "Drop");
+        linearSlides = hardwareMap.get(DcMotor.class, "Linear Slides");
 
         r1.setDirection(DcMotor.Direction.REVERSE);
         r2.setDirection(DcMotor.Direction.REVERSE);
@@ -60,7 +45,7 @@ public class CompAuto extends LinearOpMode{
         carousel.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotor.Direction.REVERSE);
         drop.setDirection(Servo.Direction.FORWARD);
-        linearSlides.setDirection(DcMotor.Direction.REVERSE);
+        linearSlides.setDirection(DcMotor.Direction.FORWARD);
 
         r1.setPower(0);
         r2.setPower(0);
@@ -68,7 +53,7 @@ public class CompAuto extends LinearOpMode{
         l2.setPower(0);
         carousel.setPower(0);
         intake.setPower(0);
-        drop.setPosition(dropStart);
+        dropStart = drop.getPosition();
         linearSlides.setPower(0);
 
         r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -85,9 +70,10 @@ public class CompAuto extends LinearOpMode{
         l2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         carousel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        drop.resetDeviceConfigurationForOpMode();
+        //drop.resetDeviceConfigurationForOpMode();
         linearSlides.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     // elapsed time function
     private ElapsedTime runtime = new ElapsedTime();
     //VuforiaObjectDetection webcam = new VuforiaObjectDetection();
@@ -99,111 +85,102 @@ public class CompAuto extends LinearOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-        //webcam.runOpMode();
-        runtime.reset();
-        startToFreight();
+        /*startToHub();
+        telemetry.addData("Status", "To Hub");
+        telemetry.update();
+        //linearSlides();
+        toFreight();
+        telemetry.addData("Status", "To Freight");
+        telemetry.update();
         toHub();
+        telemetry.addData("Status", "To Hub");
+        telemetry.update();
+        //linearSlides();
+        toCarousel();
+        telemetry.addData("Status", "To Carousel");
+        telemetry.update();
+        //spinCarousel();
+        toLandingZone();
+        telemetry.addData("Status", "To Landing Zone");
+        telemetry.update();*/
+
+
+        moveBackward(0.5, 1000);
+        telemetry.addData("Status", "Move Backward");
+        telemetry.update();
+        stopMoving(1000);
+        linearSlides(0.2, -0.1);
+
+
 
         while (opModeIsActive()) {
-            runtime.reset();
-            //webcam.runOpMode();
-            while (runtime.milliseconds() < 20000) {
-                backToFreight();
-                toHub();
-            }
+            idle();
         }
-
-        toCarousel();
-        spinCarousel();
-        toLandingZone();
     }
-    // resets encoders
-    public void resetEncoder() {
-        r1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        r2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        l1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        l2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
-    // run to position code
-    public void runToPosition() {
-        r1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        r2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        l1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        l2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-    // calculates distance in ticks
-    public void getTarget(double distanceInInches) {
-        // distances --> startToFreight: 20, freightToWall: tomeasure, wallToHub: 56, wallToCarousel: tomeasure, wallToEnd: tomeasure
-        double ticks = 537.7;
-        double circumference = 11.87;
-        double ticksPerInch = ticks/circumference;
-        double distanceInTicks = distanceInInches * ticksPerInch;
-
-        r1.setTargetPosition((int) distanceInTicks);
-        r2.setTargetPosition((int) distanceInTicks);
-        l1.setTargetPosition((int) distanceInTicks);
-        l2.setTargetPosition((int) distanceInTicks);
-    }
-    // calculates angle in ticks
-    public double getAngleDistance(double angle) {
-        double ticks = 537.7;
-        double circumferenceInInches = robotWidth * 3.14;
-        double angleDistanceInInches = (angle/360) * circumferenceInInches;
-
-        return angleDistanceInInches;
-    }
+    /*
+            toCarousel();
+            spinCarousel();
+            toLandingZone();
+        }
+        // resets encoders
+        // calculates distance in ticks
+    */
     // moves forward
-    public void moveForward(double power) {
-        r1.setPower(power);
+    public void spinRight(double power, int time) {
+        r1.setPower(-power);
         r2.setPower(-power);
-        l1.setPower(-power);
+        l1.setPower(power);
         l2.setPower(power);
+        sleep(time);
     }
+
     // moves right
-    public void moveRight(double power) {
+    public void moveRight(double power, int time) {
         r1.setPower(power);
         r2.setPower(-power);
         l1.setPower(power);
         l2.setPower(-power);
+        sleep(time);
     }
+
     // move lefts
-    public void moveLeft(double power) {
+    public void moveLeft(double power, int time) {
         r1.setPower(-power);
         r2.setPower(power);
         l1.setPower(-power);
         l2.setPower(power);
+        sleep(time);
     }
+
     // moves backward
-    public void moveBackward(double power) {
+    public void spinLeft(double power, int time) {
         r1.setPower(power);
         r2.setPower(power);
         l1.setPower(-power);
         l2.setPower(-power);
+        sleep(time);
     }
-    // spins rights
-    public void spinRight(double power, double distance) {
-        resetEncoder();
-        getTarget(distance);
-        runToPosition();
 
+    // spins rights
+    public void moveForward(double power, int time) {
         r1.setPower(power);
         r2.setPower(power);
         l1.setPower(power);
         l2.setPower(power);
+        sleep(time);
     }
-    // spins left
-    public void spinLeft(double power, double distance) {
-        resetEncoder();
-        getTarget(distance);
-        runToPosition();
 
+    // spins left
+    public void moveBackward(double power, int time) {
         r1.setPower(-power);
         r2.setPower(-power);
         l1.setPower(-power);
         l2.setPower(-power);
+        sleep(time);
     }
+
     // stop moving
-    public void stopMoving() {
+    public void stopMoving(int time) {
         r1.setPower(0);
         r2.setPower(0);
         l1.setPower(0);
@@ -211,136 +188,97 @@ public class CompAuto extends LinearOpMode{
         carousel.setPower(0);
         intake.setPower(0);
         linearSlides.setPower(0);
+        sleep(time);
     }
+
     // spin carousel
-    public void spinCarousel() {
-        double ticks = 537.7;
-        double circumference = diameterCarouselWheel * 3.14;
-        double ticksPerInch = ticks/circumference;
-        double distanceInTicks = circumference * ticksPerInch * 1.59;
-
-        carousel.setTargetPosition((int) distanceInTicks);
-        carousel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        carousel.setPower(0.5);
+    //prob 3
+    public void spinCarousel(int time) {
+        carousel.setPower(0.1);
+        sleep(time);
     }
+
+    public void spinIntake() {
+        // dropStart is the initial position
+        // dropRiseFall is dropStart + 0.1
+        // dropEnd is dropStart + 0.5
+        drop.setPosition(dropStart);
+        sleep(500);
+        intake.setPower(0.1);
+        sleep(500);
+        drop.setPosition(dropRiseFall);
+        sleep(1000);
+    }
+    //8 seconds
+    public void linearSlides(double power1, double power2) {
+        linearSlides.setPower(power1);
+        sleep(3000);
+        linearSlides.setPower(0);
+        sleep(500);
+        /*drop.setPosition(dropEnd);
+        sleep(500);
+        drop.setPosition(dropRiseFall);
+        sleep(500);*/
+        linearSlides.setPower(power2);
+        sleep(3500);
+        linearSlides.setPower(0);
+        /*drop.setPosition(dropStart);
+        sleep(500);*/
+    }
+
+    //0.5 seconds
+    public void startToHub() {
+        moveBackward(0.75, 1000);
+        stopMoving(1);
+        spinRight(0.5, 300);
+        stopMoving(1);
+        moveBackward(0.75, 1000);
+        stopMoving(1);
+        linearSlides(0.25, -0.1);
+    }
+
     // start position to freight
-    public void startToFreight() {
-        resetEncoder();
-        getTarget(startToFreight);
-        runToPosition();
-        moveForward(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-        stopMoving();
+    //5.3
+    public void toFreight() {
+        moveForward(0.75, 1000);
+        stopMoving(1);
+        spinLeft(0.5, 300);
+        stopMoving(1);
+        spinIntake();
+        moveForward(0.75, 2000);
+        stopMoving(1);
+        spinRight(1, 2000);
+        stopMoving(100);
     }
+
     // freight to hub
+    //4s
     public void toHub() {
-        resetEncoder();
-        getTarget(freightToWall);
-        runToPosition();
-        moveBackward(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-
-        spinLeft(0.5, getAngleDistance(90));
-
-        resetEncoder();
-        getTarget(wallToHub);
-        runToPosition();
-        moveLeft(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-        stopMoving();
+        moveBackward(0.5, 2000);
+        stopMoving(1);
+        spinRight(0.5, 300);
+        stopMoving(1);
+        moveBackward(0.75, 1000);
+        stopMoving(1);
+        linearSlides(0.25, -0.1);
+        stopMoving(100);
     }
-    // hub back to freight
-    public void backToFreight() {
-        resetEncoder();
-        getTarget(wallToHub);
-        runToPosition();
-        moveForward(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
 
-        spinRight(0.5, getAngleDistance(90));
-
-        resetEncoder();
-        getTarget(freightToWall);
-        runToPosition();
-        moveBackward(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-
-    }
     // hub to carousel
+    //3.5
     public void toCarousel() {
-        resetEncoder();
-        getTarget(wallToHub);
-        runToPosition();
-        moveForward(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-
-        spinRight(0.5, getAngleDistance(90));
-
-        resetEncoder();
-        getTarget(wallToCarousel);
-        runToPosition();
-        moveBackward(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-        stopMoving();
-
-        spinCarousel();
+        spinRight(0.5, 500);
+        stopMoving(1);
+        moveForward(0.75, 3000);
+        stopMoving(1);
+        spinCarousel(3000);
+        stopMoving(1);
     }
+
     // carousel to landing zone
+    //1.5s
     public void toLandingZone() {
-        resetEncoder();
-        getTarget(wallToEnd);
-        runToPosition();
-        moveLeft(0.75);
-        while (r1.isBusy() && r2.isBusy() && l1.isBusy() && l2.isBusy()) {
-            // do nothing :)
-        }
-        stopMoving();
-    }
-    // sets linear slide distance :o
-    public void setSlideDistance(int levelToGo) {
-        resetEncoder();
-        if (levelToGo == 0) {
-            moveSlides(level0Distance);
-        }
-        else if (levelToGo == 1) {
-            moveSlides(level1Distance);
-        }
-        else if (levelToGo == 2){
-            moveSlides(level2Distance);
-        }
-    }
-    // moves slides :V
-    public void moveSlides(double slideDistance) {
-        double ticks = 537.7;
-        double circumference = diameterLinearWheel * 3.14;
-        double ticksPerInch = ticks/circumference;
-        double distanceInTicks = circumference * ticksPerInch * slideDistance;
-
-        linearSlides.setTargetPosition((int) distanceInTicks);
-        linearSlides.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        linearSlides.setPower(1);
-    }
-    // drop freight ;)
-    public void dropFreight() {
-
-    }
-
-    public void getIntake(double power) {
-        resetEncoder();
-        intake.setPower(power);
+        moveRight(0.5, 1500);
+        stopMoving(1);
     }
 }
