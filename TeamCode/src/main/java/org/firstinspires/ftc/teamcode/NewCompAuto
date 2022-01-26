@@ -23,9 +23,9 @@ public class NewCompAuto extends LinearOpMode {
 
     // declare variables (¡Lo siento!)
 
-    double dropStart = 0.0;
+    double dropStart = 0.6;
     double dropRiseFall = dropStart + 0.1;
-    double dropEnd = dropStart + 0.5;
+    double dropEnd = 0;
 
     // init code
     public void init(HardwareMap Map) {
@@ -109,8 +109,8 @@ public class NewCompAuto extends LinearOpMode {
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(1000);
-        linearSlides(0.2, -0.1);
-
+        //linearSlides(0.2, -0.1);
+        servoTest();
 
 
         while (opModeIsActive()) {
@@ -126,6 +126,23 @@ public class NewCompAuto extends LinearOpMode {
         // calculates distance in ticks
     */
     // moves forward
+
+    public void servoTest() {
+        linearSlides.setPower(0.1);
+        sleep(3000);
+        linearSlides.setPower(0);
+        sleep(1000);
+        drop.setPosition(1);
+        sleep(2000);
+        drop.setPosition(0.6);
+        sleep(2000);
+        drop.setPosition(0);
+        sleep(2000);
+        linearSlides.setPower(-0.1);
+        sleep(3000);
+        linearSlides.setPower(0);
+    }
+
     public void spinRight(double power, int time) {
         r1.setPower(-power);
         r2.setPower(-power);
