@@ -38,6 +38,7 @@ public class NewCompAuto extends LinearOpMode {
         drop = hardwareMap.get(Servo.class, "Drop");
         linearSlides = hardwareMap.get(DcMotor.class, "Linear Slides");
 
+        //sets the direction of the motor
         r1.setDirection(DcMotor.Direction.REVERSE);
         r2.setDirection(DcMotor.Direction.REVERSE);
         l1.setDirection(DcMotor.Direction.FORWARD);
@@ -46,7 +47,7 @@ public class NewCompAuto extends LinearOpMode {
         intake.setDirection(DcMotor.Direction.REVERSE);
         drop.setDirection(Servo.Direction.FORWARD);
         linearSlides.setDirection(DcMotor.Direction.FORWARD);
-
+        
         r1.setPower(0);
         r2.setPower(0);
         l1.setPower(0);
