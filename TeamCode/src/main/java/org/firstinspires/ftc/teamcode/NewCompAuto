@@ -148,15 +148,29 @@ public class NewCompAuto extends LinearOpMode {
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
 
-        spinLeft(0.6, 390);
+        spinLeft(0.6, 1805);
         telemetry.addData("Status", "Spin Left");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
 
-        moveRight(0.2, 700);
+        moveLeft(0.2, 650);
         telemetry.addData("Status", "Move Right");
+        telemetry.update();
+        stopMoving(20);
+        telemetry.addData("Status", "Stop :)");
+        telemetry.update();
+
+        moveForward(0.2, 2000);
+        telemetry.addData("Status", "Move Forward");
+        telemetry.update();
+        stopMoving(20);
+        telemetry.addData("Status", "Stop :)");
+        telemetry.update();
+
+        spinCarousel(3000);
+        telemetry.addData("Status", "Spin Carousel");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
@@ -177,21 +191,25 @@ public class NewCompAuto extends LinearOpMode {
     // moves forward
 
     public void servoTest() {
+        drop.setPosition(0.1);
+        sleep(2000);
+        drop.setPosition(0.2);
+        sleep(2000);
         linearSlides.setPower(0.1);
         sleep(3000);
         linearSlides.setPower(0);
         sleep(1000);
-        drop.setPosition(0.9);
+        drop.setPosition(0.7);
         sleep(2000);
-        drop.setPosition(0.6);
+        drop.setPosition(0.2);
         sleep(2000);
-        drop.setPosition(0);
-        sleep(2000);
-        drop.setPosition(0.8);
+        drop.setPosition(1);
         sleep(2000);
         linearSlides.setPower(-0.05);
         sleep(3000);
         linearSlides.setPower(0);
+        drop.setPosition(0.1);
+        sleep(2000);
     }
 
     public void spinRight(double power, int time) {
