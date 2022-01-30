@@ -86,172 +86,161 @@ public class FinalCompAuto extends LinearOpMode {
         telemetry.update();
         runtime.reset();
         waitForStart();
-        /*startToHub();
-        telemetry.addData("Status", "To Hub");
-        telemetry.update();
-        //linearSlides();
-        toFreight();
-        telemetry.addData("Status", "To Freight");
-        telemetry.update();
-        toHub();
-        telemetry.addData("Status", "To Hub");
-        telemetry.update();
-        //linearSlides();
-        toCarousel();
-        telemetry.addData("Status", "To Carousel");
-        telemetry.update();
-        //spinCarousel();
-        toLandingZone();
-        telemetry.addData("Status", "To Landing Zone");
-        telemetry.update();*/
 
-        /*moveRight(0.2, 500);
-        telemetry.addData("Status", "Move Left");
+        //moveForward(0.5,1000); = 22.5 inches
+        //moveRight(0.2, 1000); = 14.5 inches
+
+        // 4 right
+        moveRight(0.2, 626);
+        telemetry.addData("Status", "Move Right");
         telemetry.update();
-        stopMoving(20);
+        stopMoving(1000);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-
-        moveForward(0.5, 2200);
-        telemetry.addData("Status", "Move Backward");
+        // 48.5 forward
+        moveForward(0.5, 2256);
+        telemetry.addData("Status", "Move Forward");
         telemetry.update();
-        stopMoving(20);
+        stopMoving(1000);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-
+        //carousel
         spinCarousel(3000);
         telemetry.addData("Status", "Spin Carousel");
         telemetry.update();
-        stopMoving(20);
+        stopMoving(1000);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
+        // 43.5 backward
+        moveBackward(0.5, 1984);
+        telemetry.addData("Status", "Move Backward");
+        telemetry.update();
+        stopMoving(1000);
+        telemetry.addData("Status", "Stop :)");
+        telemetry.update();
+        // 4 right
+        moveRight(0.2, 326);
+        telemetry.addData("Status", "Move Right");
+        telemetry.update();
+        stopMoving(1000);
+        telemetry.addData("Status", "Stop :)");
+        telemetry.update();
+        // 90 deg spinright
+        spinLeft(0.6, 687);
+        telemetry.addData("Status", "Spin Right");
+        telemetry.update();
+        stopMoving(1000);
+        telemetry.addData("Status", "Stop :)");
+        telemetry.update();
+        // 11 left if detect
+        if (false) {
+            //11 inches left
+            moveRight(0.2, 859);
+            telemetry.addData("Status", "Move Left");
+            telemetry.update();
+            stopMoving(1000);
+            telemetry.addData("Status", "Stop :)");
+            telemetry.update();
 
-        moveBackward(0.5, 2100);
+            // 7 forward
+            moveBackward(0.5, 311);
+            telemetry.addData("Status", "Move Forward");
+            telemetry.update();
+            stopMoving(1000);
+            telemetry.addData("Status", "Stop :)");
+            telemetry.update();
+
+            //linearSlides
+            servoTest();
+            telemetry.addData("Status", "Linear Slides and Servo");
+            telemetry.update();
+            stopMoving(20);
+            telemetry.addData("Status", "Stop :)");
+            telemetry.update();
+            
+        } else {
+            moveLeft(0.2, 445);
+            telemetry.addData("Status", "Move Forward");
+            telemetry.update();
+            stopMoving(1000);
+            telemetry.addData("Status", "Stop :)");
+            telemetry.update();
+
+            if (false) {
+                //11 inches left
+                moveRight(0.2, 1491);
+                telemetry.addData("Status", "Move Left");
+                telemetry.update();
+                stopMoving(1000);
+                telemetry.addData("Status", "Stop :)");
+                telemetry.update();
+
+                // 7 forward
+                moveBackward(0.5, 311);
+                telemetry.addData("Status", "Move Forward");
+                telemetry.update();
+                stopMoving(1000);
+                telemetry.addData("Status", "Stop :)");
+                telemetry.update();
+
+                //linearSlides
+                servoTest();
+                telemetry.addData("Status", "Linear Slides and Servo");
+                telemetry.update();
+                stopMoving(20);
+                telemetry.addData("Status", "Stop :)");
+                telemetry.update();
+                
+            } else {
+                moveRight(0.2, 1491);
+                telemetry.addData("Status", "Move Left");
+                telemetry.update();
+                stopMoving(1000);
+                telemetry.addData("Status", "Stop :)");
+                telemetry.update();
+
+                // 7 forward
+                moveBackward(0.5, 311);
+                telemetry.addData("Status", "Move Forward");
+                telemetry.update();
+                stopMoving(1000);
+                telemetry.addData("Status", "Stop :)");
+                telemetry.update();
+
+                //linearSlides
+                servoTest();
+                telemetry.addData("Status", "Linear Slides and Servo");
+                telemetry.update();
+                stopMoving(20);
+                telemetry.addData("Status", "Stop :)");
+                telemetry.update();
+            }
+        }
+
+        //
+        moveForward(0.5, 1000);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-
-        moveRight(0.2, 700);
-        telemetry.addData("Status", "Move Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();*/
-
-        spinLeft(0.6, 500);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinRight(0.6, 500);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinLeft(0.6, 1000);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinRight(0.6, 1000);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinLeft(0.6, 1500);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinRight(0.6, 1500);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinLeft(0.6, 2000);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinRight(0.6, 2000);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        /*moveBackward(0.2, 800);
+        
+        //
+        spinLeft(0.6, 687);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-
-        servoTest();
-        telemetry.addData("Status", "Linear Slides and Servo");
+        
+        //
+        moveForward(0.5, 1800);
+        telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-
-        moveForward(0.2, 900);
-        telemetry.addData("Status", "Move Forward");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        spinLeft(0.6, 1780);
-        telemetry.addData("Status", "Spin Left");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        moveLeft(0.2, 600);
-        telemetry.addData("Status", "Move Right");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        moveForward(0.2, 2250);
-        telemetry.addData("Status", "Move Forward");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        moveRight(0.2, 1500);
-        telemetry.addData("Status", "Move Right");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();
-
-        moveForward(0.2, 500);
-        telemetry.addData("Status", "Move Forward");
-        telemetry.update();
-        stopMoving(20);
-        telemetry.addData("Status", "Stop :)");
-        telemetry.update();*/
-
+        
         while (opModeIsActive()) {
             telemetry.addData("Status", runtime.milliseconds());
         }
