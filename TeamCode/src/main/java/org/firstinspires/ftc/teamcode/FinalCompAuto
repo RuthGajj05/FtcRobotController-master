@@ -91,62 +91,68 @@ public class FinalCompAuto extends LinearOpMode {
         //moveRight(0.2, 1000); = 14.5 inches
 
         // 4 right
-        moveRight(0.2, 626);
+        moveRight(0.2, 426);
         telemetry.addData("Status", "Move Right");
         telemetry.update();
-        stopMoving(1000);
+        stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
+
         // 48.5 forward
         moveForward(0.5, 2256);
         telemetry.addData("Status", "Move Forward");
         telemetry.update();
-        stopMoving(1000);
+        stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
+
         //carousel
         spinCarousel(3000);
         telemetry.addData("Status", "Spin Carousel");
         telemetry.update();
-        stopMoving(1000);
+        stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
+
         // 43.5 backward
         moveBackward(0.5, 1984);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
-        stopMoving(1000);
+        stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
+
         // 4 right
-        moveRight(0.2, 326);
+        moveRight(0.2, 526);
         telemetry.addData("Status", "Move Right");
         telemetry.update();
-        stopMoving(1000);
+        stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
+
         // 90 deg spinright
         spinLeft(0.6, 687);
         telemetry.addData("Status", "Spin Right");
         telemetry.update();
-        stopMoving(1000);
+        stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
+
         // 11 left if detect
         if (false) {
             //11 inches left
             moveRight(0.2, 859);
             telemetry.addData("Status", "Move Left");
             telemetry.update();
-            stopMoving(1000);
+            stopMoving(20);
             telemetry.addData("Status", "Stop :)");
             telemetry.update();
 
             // 7 forward
-            moveBackward(0.5, 311);
+            moveBackward(0.5, 450);
             telemetry.addData("Status", "Move Forward");
             telemetry.update();
-            stopMoving(1000);
+            stopMoving(20);
             telemetry.addData("Status", "Stop :)");
             telemetry.update();
 
@@ -157,29 +163,29 @@ public class FinalCompAuto extends LinearOpMode {
             stopMoving(20);
             telemetry.addData("Status", "Stop :)");
             telemetry.update();
-            
+
         } else {
             moveLeft(0.2, 445);
             telemetry.addData("Status", "Move Forward");
             telemetry.update();
-            stopMoving(1000);
+            stopMoving(20);
             telemetry.addData("Status", "Stop :)");
             telemetry.update();
 
             if (false) {
                 //11 inches left
-                moveRight(0.2, 1491);
+                moveRight(0.2, 1200);
                 telemetry.addData("Status", "Move Left");
                 telemetry.update();
-                stopMoving(1000);
+                stopMoving(20);
                 telemetry.addData("Status", "Stop :)");
                 telemetry.update();
 
                 // 7 forward
-                moveBackward(0.5, 311);
+                moveBackward(0.5, 650);
                 telemetry.addData("Status", "Move Forward");
                 telemetry.update();
-                stopMoving(1000);
+                stopMoving(20);
                 telemetry.addData("Status", "Stop :)");
                 telemetry.update();
 
@@ -190,20 +196,20 @@ public class FinalCompAuto extends LinearOpMode {
                 stopMoving(20);
                 telemetry.addData("Status", "Stop :)");
                 telemetry.update();
-                
+
             } else {
-                moveRight(0.2, 1491);
+                moveRight(0.2, 1200);
                 telemetry.addData("Status", "Move Left");
                 telemetry.update();
-                stopMoving(1000);
+                stopMoving(20);
                 telemetry.addData("Status", "Stop :)");
                 telemetry.update();
 
                 // 7 forward
-                moveBackward(0.5, 311);
+                moveBackward(0.5, 650);
                 telemetry.addData("Status", "Move Forward");
                 telemetry.update();
-                stopMoving(1000);
+                stopMoving(20);
                 telemetry.addData("Status", "Stop :)");
                 telemetry.update();
 
@@ -218,29 +224,29 @@ public class FinalCompAuto extends LinearOpMode {
         }
 
         //
-        moveForward(0.5, 1000);
+        moveForward(0.5, 750);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-        
+
         //
-        spinLeft(0.6, 687);
+        spinLeft(0.6, 700);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-        
+
         //
-        moveForward(0.5, 1800);
+        moveForward(0.5, 2000);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
-        
+
         while (opModeIsActive()) {
             telemetry.addData("Status", runtime.milliseconds());
         }
