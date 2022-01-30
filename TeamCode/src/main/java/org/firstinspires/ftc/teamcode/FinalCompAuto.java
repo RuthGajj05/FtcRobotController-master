@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous
-public class NewCompAuto extends LinearOpMode {
+public class FinalCompAuto extends LinearOpMode {
     // initialize motors :(
     DcMotor r1 = null;
     DcMotor r2 = null;
