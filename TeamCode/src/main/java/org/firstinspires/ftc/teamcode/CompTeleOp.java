@@ -48,8 +48,7 @@ public class CompTeleOp extends LinearOpMode {
                 bot.intakeM(-1);
             }
             else if(gamepad1.y){
-                bot.intakeM(1
-                );
+                bot.intakeM(1);
             }
             else{
                 bot.intakeM(0);

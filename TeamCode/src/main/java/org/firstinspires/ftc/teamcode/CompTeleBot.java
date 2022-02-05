@@ -117,7 +117,7 @@ public class TerraBot {
     public double armThing(){
         return Arm.getPosition();
     }
-// 537
+    // 537
     public void linearSlidesM(double power){
         linearSlides.setPower(power);
     }
