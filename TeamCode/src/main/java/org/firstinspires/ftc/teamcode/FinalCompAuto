@@ -58,8 +58,8 @@ public class FinalCompAuto extends LinearOpMode {
 
     boolean isMarkerDetected = false;
 
-    double timeout = 5;
-    
+    double timeout = 3;
+
     // init code
     public void init(HardwareMap Map) {
         r1 = hardwareMap.get(DcMotor.class, "r1");
@@ -115,8 +115,8 @@ public class FinalCompAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         init(hwMap);
-        initVuforia();
-        initTfod();
+        //initVuforia();
+        //initTfod();
         if (tfod != null) {
             tfod.activate();
             tfod.setZoom(2.5, 16.0/9.0);
@@ -138,7 +138,7 @@ public class FinalCompAuto extends LinearOpMode {
         telemetry.update();
 
         // 48.5 forward
-        moveForward(0.5, 2256);
+        moveForward(0.5, 2156);
         telemetry.addData("Status", "Move Forward");
         telemetry.update();
         stopMoving(20);
@@ -154,7 +154,7 @@ public class FinalCompAuto extends LinearOpMode {
         telemetry.update();
 
         // 43.5 backward
-        moveBackward(0.5, 1984);
+        moveBackward(0.5, 1900);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
@@ -177,7 +177,7 @@ public class FinalCompAuto extends LinearOpMode {
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
         runtime.reset();
-            while (runtime.seconds() < timeout) {
+            /*while (runtime.seconds() < timeout) {
                 if (tfod != null) {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
@@ -196,9 +196,16 @@ public class FinalCompAuto extends LinearOpMode {
                                 telemetry.addData("Object Detected", "Marker");
                                 sleep(10);
                                 break;
-                            } else {
-                                isMarkerDetected = false;
                             }
+                            else if (recognition.getLabel().equals("Cube") || recognition.getLabel().equals("Ball") || recognition.getLabel().equals("Duck")){
+                                isMarkerDetected = false;
+                                telemetry.addData("Object Detected", "Shipping Element");
+                                break;
+                            }
+                            else {
+                                isMarkerDetected = true;
+                            }
+                            telemetry.update();
                         }
                         telemetry.update();
                     }
@@ -206,10 +213,10 @@ public class FinalCompAuto extends LinearOpMode {
                         break;
                     }
                 }
-            }
-        
+            }*/
+
         // 11 left if detect
-        if (isMarkerDetected == false) {
+        if (isMarkerDetected == true) {
             //11 inches left
             moveRight(0.2, 859);
             telemetry.addData("Status", "Move Left");
@@ -243,7 +250,8 @@ public class FinalCompAuto extends LinearOpMode {
             telemetry.update();
 
             runtime.reset();
-            while (runtime.seconds() < timeout) {
+            isMarkerDetected = false;
+            /*while (runtime.seconds() < timeout) {
                 if (tfod != null) {
                     tfod.activate();
                     tfod.setZoom(2.5, 16.0/9.0);
@@ -264,8 +272,14 @@ public class FinalCompAuto extends LinearOpMode {
                                 telemetry.addData("Object Detected", "Marker");
                                 sleep(10);
                                 break;
-                            } else {
+                            }
+                            else if (recognition.getLabel().equals("Cube") || recognition.getLabel().equals("Ball") || recognition.getLabel().equals("Duck")){
                                 isMarkerDetected = false;
+                                telemetry.addData("Object Detected", "Shipping Element");
+                                break;
+                            }
+                            else {
+                                isMarkerDetected = true;
                             }
                         }
                         telemetry.update();
@@ -274,11 +288,11 @@ public class FinalCompAuto extends LinearOpMode {
                         break;
                     }
                 }
-            }
-            
+            }*/
+
             if (isMarkerDetected == false) {
                 //11 inches left
-                moveRight(0.2, 1200);
+                moveRight(0.2, 1000);
                 telemetry.addData("Status", "Move Left");
                 telemetry.update();
                 stopMoving(20);
@@ -286,7 +300,7 @@ public class FinalCompAuto extends LinearOpMode {
                 telemetry.update();
 
                 // 7 forward
-                moveBackward(0.5, 650);
+                moveBackward(0.5, 550);
                 telemetry.addData("Status", "Move Forward");
                 telemetry.update();
                 stopMoving(20);
@@ -328,7 +342,7 @@ public class FinalCompAuto extends LinearOpMode {
         }
 
         //
-        moveForward(0.5, 750);
+        moveForward(0.5, 150);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
@@ -336,13 +350,19 @@ public class FinalCompAuto extends LinearOpMode {
         telemetry.update();
 
         //
-        spinLeft(0.6, 700);
+        spinLeft(0.6, 687);
         telemetry.addData("Status", "Move Backward");
         telemetry.update();
         stopMoving(20);
         telemetry.addData("Status", "Stop :)");
         telemetry.update();
 
+        moveRight(0.2, 700);
+        telemetry.addData("Status", "Move Backward");
+        telemetry.update();
+        stopMoving(20);
+        telemetry.addData("Status", "Stop :)");
+        telemetry.update();
         //
         moveForward(0.5, 2000);
         telemetry.addData("Status", "Move Backward");
@@ -355,15 +375,6 @@ public class FinalCompAuto extends LinearOpMode {
             telemetry.addData("Status", runtime.milliseconds());
         }
     }
-    /*
-            toCarousel();
-            spinCarousel();
-            toLandingZone();
-        }
-        // resets encoders
-        // calculates distance in ticks
-    */
-    // moves forward
 
     public void servoTest() {
         drop.setPosition(0.8);
@@ -455,97 +466,12 @@ public class FinalCompAuto extends LinearOpMode {
         sleep(time);
     }
 
-    public void spinIntake() {
-        // dropStart is the initial position
-        // dropRiseFall is dropStart + 0.1
-        // dropEnd is dropStart + 0.5
-        drop.setPosition(dropStart);
-        sleep(500);
-        intake.setPower(0.1);
-        sleep(500);
-        drop.setPosition(dropRiseFall);
-        sleep(1000);
-    }
-    //8 seconds
-    public void linearSlides(double power1, double power2) {
-        linearSlides.setPower(power1);
-        sleep(3000);
-        linearSlides.setPower(0);
-        sleep(500);
-        /*drop.setPosition(dropEnd);
-        sleep(500);
-        drop.setPosition(dropRiseFall);
-        sleep(500);*/
-        linearSlides.setPower(power2);
-        sleep(3500);
-        linearSlides.setPower(0);
-        /*drop.setPosition(dropStart);
-        sleep(500);*/
-    }
-
-    //0.5 seconds
-    public void startToHub() {
-        moveBackward(0.75, 1000);
-        stopMoving(1);
-        spinRight(0.5, 300);
-        stopMoving(1);
-        moveBackward(0.75, 1000);
-        stopMoving(1);
-        linearSlides(0.25, -0.1);
-    }
-
-    // start position to freight
-    //5.3
-    public void toFreight() {
-        moveForward(0.75, 1000);
-        stopMoving(1);
-        spinLeft(0.5, 300);
-        stopMoving(1);
-        spinIntake();
-        moveForward(0.75, 2000);
-        stopMoving(1);
-        spinRight(1, 2000);
-        stopMoving(100);
-    }
-
-    // freight to hub
-    //4s
-    public void toHub() {
-        moveBackward(0.5, 2000);
-        stopMoving(1);
-        spinRight(0.5, 300);
-        stopMoving(1);
-        moveBackward(0.75, 1000);
-        stopMoving(1);
-        linearSlides(0.25, -0.1);
-        stopMoving(100);
-    }
-
-    // hub to carousel
-    //3.5
-    public void toCarousel() {
-        spinRight(0.5, 500);
-        stopMoving(1);
-        moveForward(0.75, 3000);
-        stopMoving(1);
-        spinCarousel(3000);
-        stopMoving(1);
-    }
-
-    // carousel to landing zone
-    //1.5s
-    public void toLandingZone() {
-        moveRight(0.5, 1500);
-        stopMoving(1);
-    }
-
     // init vuforia
     private void initVuforia() {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        //parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
